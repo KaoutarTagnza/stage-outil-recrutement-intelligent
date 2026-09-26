@@ -1,0 +1,22 @@
+<nav class="navbar">
+  <a routerLink="/offres" class="logo">RecrutementIA</a>
+
+  <div class="liens">
+    <ng-container *ngIf="authService.getToken()">
+      <a routerLink="/dashboard">Tableau de bord</a>
+    </ng-container>
+
+    <a routerLink="/offres">Offres</a>
+
+    <ng-container *ngIf="authService.getToken()">
+      <a *ngIf="authService.getRole() === 'RECRUTEUR'" routerLink="/mes-offres">Mes offres</a>
+      <a *ngIf="authService.getRole() === 'RECRUTEUR'" routerLink="/creer-offre">Créer une offre</a>
+      <a *ngIf="authService.getRole() === 'CANDIDAT'" routerLink="/mes-candidatures">Mes candidatures</a>
+      <a *ngIf="authService.getRole() === 'ADMIN'" routerLink="/admin">Administration</a>
+      <span class="email">{{ authService.getEmail() }}</span>
+      <button (click)="authService.logout()">Déconnexion</button>
+    </ng-container>
+
+    <a *ngIf="!authService.getToken()" routerLink="/login">Connexion</a>
+  </div>
+</nav>

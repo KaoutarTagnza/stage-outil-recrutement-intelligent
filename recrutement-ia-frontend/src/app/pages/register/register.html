@@ -1,0 +1,49 @@
+<div class="register-container">
+  <p class="page-eyebrow">RecrutementIA</p>
+  <h1>Créer un compte</h1>
+
+  <form (ngSubmit)="onSubmit()">
+    <div class="champ">
+      <label for="nom">Nom complet</label>
+      <input type="text" id="nom" name="nom" [(ngModel)]="data.nom" required>
+    </div>
+
+    <div class="champ">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" [(ngModel)]="data.email" required>
+    </div>
+
+    <div class="champ">
+      <label for="motDePasse">Mot de passe</label>
+      <input type="password" id="motDePasse" name="motDePasse" [(ngModel)]="data.motDePasse" required minlength="8">
+    </div>
+
+    <div class="champ">
+      <label for="role">Je suis</label>
+      <select id="role" name="role" [(ngModel)]="data.role">
+        <option value="CANDIDAT">Candidat</option>
+        <option value="RECRUTEUR">Recruteur</option>
+      </select>
+    </div>
+
+    <div class="champ" *ngIf="data.role === 'CANDIDAT'">
+      <label for="telephone">Téléphone</label>
+      <input type="tel" id="telephone" name="telephone" [(ngModel)]="data.telephone">
+    </div>
+
+    <div class="champ champ-checkbox">
+      <label class="checkbox-label">
+        <input type="checkbox" name="consentement" [(ngModel)]="data.consentementDonnees" required>
+        J'accepte que mes données soient traitées, y compris par un système d'IA pour l'analyse de mon profil (RGPD / EU AI Act)
+      </label>
+    </div>
+
+    <p class="erreur" *ngIf="erreur()">{{ erreur() }}</p>
+
+    <button type="submit" [disabled]="chargement()">
+      {{ chargement() ? 'Création...' : 'Créer mon compte' }}
+    </button>
+  </form>
+
+  <p class="lien-bas">Déjà un compte ? <a routerLink="/login">Se connecter</a></p>
+</div>

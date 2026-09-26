@@ -1,0 +1,61 @@
+<div class="detail-candidature-container">
+  <h1>Gestion de la candidature #{{ candidatureId }}</h1>
+
+  <!-- Etape 1 : Questions -->
+  <section>
+    <h2>1. Générer les questions d'entretien</h2>
+    <button (click)="genererQuestions()" [disabled]="chargementQuestions()">
+      {{ chargementQuestions() ? 'Génération...' : 'Générer les questions' }}
+    </button>
+    <ul *ngIf="questions().length > 0">
+      <li *ngFor="let q of questions()">{{ q }}</li>
+    </ul>
+  </section>
+
+  <!-- Etape 2 : Planification -->
+  <section>
+    <h2>2. Planifier l'entretien</h2>
+    <input type="datetime-local" [(ngModel)]="dateEntretien">
+    <button (click)="planifierEntretien()" [disabled]="chargementPlanification()">
+      {{ chargementPlanification() ? 'Planification...' : 'Planifier' }}
+    </button>
+    <p *ngIf="entretienId()">✓ Entretien planifié (id: {{ entretienId() }})</p>
+  </section>
+
+  <!-- Etape 3 : Evaluation (visible seulement apres planification) -->
+  <section *ngIf="entretienId() && !evaluationFaite()">
+    <h2>3. Évaluer l'entretien</h2>
+    <label>Note globale (sur 10)</label>
+    <input type="number" [(ngModel)]="noteGlobale" min="0" max="10" step="0.5">
+
+    <label>Commentaire</label>
+    <textarea [(ngModel)]="commentaire" rows="3"></textarea>
+
+    <label>Décision</label>
+    <select [(ngModel)]="decisionEvaluation">
+      <option value="FAVORABLE">Favorable</option>
+      <option value="DEFAVORABLE">Défavorable</option>
+      <option value="A_REVOIR">À revoir</option>
+    </select>
+
+    <button (click)="soumettreEvaluation()" [disabled]="chargementEvaluation()">
+      {{ chargementEvaluation() ? 'Envoi...' : 'Enregistrer l\'évaluation' }}
+    </button>
+  </section>
+
+  <!-- Etape 4 : Decision finale (visible apres evaluation) -->
+  <section *ngIf="evaluationFaite()">
+    <h2>4. Décision finale</h2>
+    <p class="attention">La justification est obligatoire (principe de supervision humaine).</p>
+    <textarea [(ngModel)]="justification" rows="3" placeholder="Justification de la décision..."></textarea>
+
+    <button (click)="deciderFinal(true)" [disabled]="chargementDecision()" class="btn-accepter">
+      Accepter
+    </button>
+    <button (click)="deciderFinal(false)" [disabled]="chargementDecision()" class="btn-rejeter">
+      Rejeter
+    </button>
+
+    <p *ngIf="messageDecision()">{{ messageDecision() }}</p>
+  </section>
+</div>

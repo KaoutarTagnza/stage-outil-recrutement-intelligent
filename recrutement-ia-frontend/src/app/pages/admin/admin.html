@@ -1,0 +1,59 @@
+<div class="admin-container">
+  <h1>Administration</h1>
+
+  <nav class="onglets">
+    <button (click)="changerOnglet('statistiques')" [class.actif]="ongletActif() === 'statistiques'">Statistiques</button>
+    <button (click)="changerOnglet('utilisateurs')" [class.actif]="ongletActif() === 'utilisateurs'">Utilisateurs</button>
+    <button (click)="changerOnglet('logs')" [class.actif]="ongletActif() === 'logs'">Journal des actions</button>
+  </nav>
+
+  <p *ngIf="chargement()">Chargement...</p>
+
+  <!-- Statistiques -->
+  <div *ngIf="ongletActif() === 'statistiques' && statistiques() as s" class="stats-grid">
+    <div class="stat-card"><span class="valeur">{{ s.nbOffresTotal }}</span><span class="label">Offres au total</span></div>
+    <div class="stat-card"><span class="valeur">{{ s.nbOffresPubliees }}</span><span class="label">Offres publiées</span></div>
+    <div class="stat-card"><span class="valeur">{{ s.nbCandidats }}</span><span class="label">Candidats</span></div>
+    <div class="stat-card"><span class="valeur">{{ s.nbRecruteurs }}</span><span class="label">Recruteurs</span></div>
+    <div class="stat-card"><span class="valeur">{{ s.nbCandidaturesTotal }}</span><span class="label">Candidatures</span></div>
+    <div class="stat-card"><span class="valeur">{{ s.nbCandidaturesAcceptees }}</span><span class="label">Acceptées</span></div>
+    <div class="stat-card"><span class="valeur">{{ s.nbCandidaturesRejetees }}</span><span class="label">Rejetées</span></div>
+    <div class="stat-card"><span class="valeur">{{ s.tauxAcceptationPourcent }}%</span><span class="label">Taux d'acceptation</span></div>
+  </div>
+
+  <!-- Utilisateurs -->
+  <table *ngIf="ongletActif() === 'utilisateurs'" class="admin-table">
+    <thead>
+      <tr><th>Nom</th><th>Email</th><th>Rôle</th><th>Actif</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let u of utilisateurs()">
+        <td>{{ u.nom }}</td>
+        <td>{{ u.email }}</td>
+        <td>
+          <select [ngModel]="u.role" (ngModelChange)="changerRole(u, $event)">
+            <option value="ADMIN">ADMIN</option>
+            <option value="RECRUTEUR">RECRUTEUR</option>
+            <option value="CANDIDAT">CANDIDAT</option>
+          </select>
+        </td>
+        <td>{{ u.actif ? 'Oui' : 'Non' }}</td>
+        <td><button (click)="basculerStatut(u)">{{ u.actif ? 'Désactiver' : 'Activer' }}</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Logs -->
+  <table *ngIf="ongletActif() === 'logs'" class="admin-table">
+    <thead>
+      <tr><th>Date</th><th>Utilisateur</th><th>Action</th></tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let log of logs()">
+        <td>{{ log.dateHeure | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>{{ log.utilisateurNom }}</td>
+        <td>{{ log.action }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

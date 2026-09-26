@@ -1,0 +1,8 @@
+.hero-recherche {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+  color: white;
+  text-align: center;
+  padding: 3rem 1.5rem;
+}
+.hero-recherche h1 { color: white; margin-bottom: 0.5rem; }
+.hero-recherche p { color: #b8cbe0; margin: 0; }

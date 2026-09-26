@@ -1,0 +1,186 @@
+/* ============ TOKENS — style "jobboard" bleu marine + orange ============ */
+:root {
+  --navy: #0b3d6b;
+  --navy-dark: #082c4d;
+  --blue: #1565c0;
+  --orange: #f5820c;
+  --orange-dark: #d96e00;
+  --bg: #f4f6f9;
+  --surface: #ffffff;
+  --line: #e2e6ec;
+  --text: #1e2a38;
+  --text-soft: #5b6b7a;
+  --success: #1f9254;
+  --success-tint: #e3f6ec;
+  --danger: #d0342c;
+  --danger-tint: #fbe6e5;
+  --warning: #c8860a;
+  --warning-tint: #fbf0dc;
+  --radius: 8px;
+  --shadow: 0 1px 2px rgba(11,61,107,0.06), 0 2px 8px rgba(11,61,107,0.06);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.55;
+}
+
+/* ============ TYPOGRAPHIE ============ */
+h1, h2, h3 { font-family: 'Poppins', sans-serif; color: var(--navy); }
+h1 { font-size: 1.65rem; font-weight: 700; margin: 0 0 1.25rem; }
+h2 { font-size: 1.1rem; font-weight: 600; margin: 0 0 0.6rem; color: var(--text); }
+p { color: var(--text-soft); margin: 0 0 0.5rem; }
+a { color: var(--blue); text-decoration: none; font-weight: 500; }
+a:hover { text-decoration: underline; }
+
+/* ============ CONTENEURS ============ */
+.login-container, .register-container, .offres-container,
+.creer-offre-container, .candidatures-container,
+.detail-offre-container, .detail-candidature-container,
+.admin-container, .dashboard {
+  max-width: 760px;
+  margin: 2.5rem auto;
+  padding: 2rem 2.25rem;
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.admin-container { max-width: 1000px; }
+
+/* ============ FORMULAIRES ============ */
+.champ { margin-bottom: 1.1rem; display: flex; flex-direction: column; gap: 0.35rem; }
+.champ label { font-weight: 600; font-size: 0.85rem; color: var(--text); }
+
+input, select, textarea {
+  padding: 0.65rem 0.85rem;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--surface);
+  transition: border-color 0.15s;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(21,101,192,0.12);
+}
+textarea { resize: vertical; min-height: 90px; }
+
+/* ============ BOUTONS ============ */
+button, .btn-nouvelle {
+  background: var(--orange);
+  color: white;
+  border: none;
+  padding: 0.65rem 1.35rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: background 0.15s;
+  display: inline-block;
+}
+button:hover:not(:disabled) { background: var(--orange-dark); }
+button:disabled { background: var(--line); color: var(--text-soft); cursor: not-allowed; }
+
+.btn-accepter { background: var(--success); margin-right: 0.6rem; }
+.btn-accepter:hover:not(:disabled) { background: #167a44; }
+.btn-rejeter { background: var(--danger); }
+.btn-rejeter:hover:not(:disabled) { background: #ac2921; }
+
+/* ============ MESSAGES ============ */
+.erreur, .attention {
+  background: var(--danger-tint);
+  color: var(--danger);
+  padding: 0.65rem 0.9rem;
+  border-radius: var(--radius);
+  font-size: 0.87rem;
+  font-weight: 500;
+  margin: 0.85rem 0;
+}
+.attention { background: var(--warning-tint); color: var(--warning); }
+
+/* ============ CARTES D'OFFRES / CANDIDATURES ============ */
+.offre-card, .candidature-card {
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--navy);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  transition: border-left-color 0.15s;
+}
+.offre-card:hover, .candidature-card:hover { border-left-color: var(--orange); }
+.offre-card h2, .candidature-card h2 { color: var(--navy); margin-bottom: 0.3rem; }
+
+/* ============ COMPETENCES ============ */
+.competences { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.6rem 0; }
+.badge {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--navy);
+  background: #e8f0f8;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+}
+
+/* ============ STATUTS ============ */
+.statut {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  margin-bottom: 0.5rem;
+}
+.statut.BROUILLON { background: #eceff3; color: var(--text-soft); }
+.statut.PUBLIEE, .statut.FAVORABLE, .statut.ACCEPTEE { background: var(--success-tint); color: var(--success); }
+.statut.FERMEE, .statut.REJETEE, .statut.DEFAVORABLE { background: var(--danger-tint); color: var(--danger); }
+.statut.EN_ATTENTE, .statut.A_REVOIR { background: var(--warning-tint); color: var(--warning); }
+.statut.PRESELECTIONNEE, .statut.ENTRETIEN_PLANIFIE { background: #e8f0f8; color: var(--blue); }
+
+/* ============ TABLEAUX (admin) ============ */
+.admin-table { width: 100%; border-collapse: collapse; margin-top: 1rem; background: var(--surface); }
+.admin-table th {
+  text-align: left; padding: 0.75rem 1rem; background: var(--navy); color: white;
+  font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;
+}
+.admin-table th:first-child { border-radius: var(--radius) 0 0 0; }
+.admin-table th:last-child { border-radius: 0 var(--radius) 0 0; }
+.admin-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--line); font-size: 0.9rem; }
+.admin-table tr:hover td { background: var(--bg); }
+
+/* ============ ONGLETS ============ */
+.onglets { display: flex; gap: 0.25rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--line); }
+.onglets button {
+  background: transparent; color: var(--text-soft); border-radius: 0;
+  padding: 0.65rem 1rem; border-bottom: 3px solid transparent; font-weight: 600;
+}
+.onglets button:hover { color: var(--navy); background: transparent; }
+.onglets button.actif { color: var(--navy); border-bottom-color: var(--orange); }
+
+/* ============ STATISTIQUES ============ */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
+.stat-card { background: var(--surface); border-radius: var(--radius); padding: 1.4rem 1.25rem; text-align: center; box-shadow: var(--shadow); border-top: 3px solid var(--orange); }
+.stat-card .valeur { display: block; font-family: 'Poppins', sans-serif; font-size: 1.9rem; font-weight: 700; color: var(--navy); }
+.stat-card .label { font-size: 0.8rem; color: var(--text-soft); }
+
+.cv-depose { color: var(--success); font-weight: 600; }
+
+@media (max-width: 640px) {
+  .login-container, .register-container, .offres-container,
+  .creer-offre-container, .candidatures-container,
+  .detail-offre-container, .detail-candidature-container,
+  .admin-container, .dashboard {
+    margin: 1rem; padding: 1.5rem;
+  }
+}

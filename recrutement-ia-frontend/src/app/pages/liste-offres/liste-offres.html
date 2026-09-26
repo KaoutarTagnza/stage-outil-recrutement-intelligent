@@ -1,0 +1,19 @@
+<div class="hero-recherche">
+  <h1>Trouvez votre prochain emploi</h1>
+  <p>Toutes les offres publiées par nos recruteurs partenaires.</p>
+</div>
+
+<div class="offres-container">
+  <p *ngIf="chargement()">Chargement...</p>
+  <p *ngIf="!chargement() && offres().length === 0">Aucune offre disponible pour le moment.</p>
+
+  <div class="offre-card" *ngFor="let offre of offres()">
+    <h2>{{ offre.titre }}</h2>
+    <p>{{ offre.description }}</p>
+    <p class="competences">
+      <span *ngFor="let c of offre.competences" class="badge">{{ c }}</span>
+    </p>
+    <p class="recruteur">Publiée par {{ offre.recruteurNom }}</p>
+    <a [routerLink]="['/offres', offre.id]">Voir le détail →</a>
+  </div>
+</div>

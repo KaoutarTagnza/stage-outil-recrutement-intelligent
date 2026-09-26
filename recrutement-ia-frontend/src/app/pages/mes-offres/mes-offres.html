@@ -1,0 +1,15 @@
+<div class="offres-container">
+  <h1>Mes offres</h1>
+  <a routerLink="/creer-offre" class="btn-nouvelle">+ Nouvelle offre</a>
+
+  <p *ngIf="chargement()">Chargement...</p>
+  <p *ngIf="!chargement() && offres().length === 0">Vous n'avez créé aucune offre.</p>
+
+  <div class="offre-card" *ngFor="let offre of offres()">
+    <h2>{{ offre.titre }}</h2>
+    <span class="statut" [class]="offre.statut">{{ offre.statut }}</span>
+    <p>{{ offre.description }}</p>
+    <button *ngIf="offre.statut === 'BROUILLON'" (click)="publier(offre.id)">Publier</button>
+    <a [routerLink]="['/offres', offre.id, 'candidatures']">Voir les candidatures</a>
+  </div>
+</div>

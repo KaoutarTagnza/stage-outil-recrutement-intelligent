@@ -1,0 +1,24 @@
+.bienvenue-eyebrow { font-size: 0.85rem; color: var(--orange); font-weight: 700; margin-bottom: 0.3rem; }
+
+.raccourcis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1.75rem 0;
+}
+.raccourci {
+  display: block;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--navy);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  text-decoration: none;
+  transition: border-top-color 0.15s, box-shadow 0.15s;
+  box-shadow: var(--shadow);
+}
+.raccourci:hover { border-top-color: var(--orange); text-decoration: none; }
+.raccourci h2 { margin-bottom: 0.4rem; color: var(--navy); }
+.raccourci p { font-size: 0.88rem; margin: 0; }
+
+.btn-deconnexion { background: transparent; color: var(--text-soft); border: 1.5px solid var(--line); }
+.btn-deconnexion:hover:not(:disabled) { background: var(--bg); color: var(--navy); }

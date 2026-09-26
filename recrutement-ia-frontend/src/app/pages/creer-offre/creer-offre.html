@@ -1,0 +1,27 @@
+<div class="creer-offre-container">
+  <h1>Créer une offre</h1>
+
+  <form (ngSubmit)="onSubmit()">
+    <div class="champ">
+      <label for="titre">Titre du poste</label>
+      <input type="text" id="titre" name="titre" [(ngModel)]="titre" required>
+    </div>
+
+    <div class="champ">
+      <label for="description">Description</label>
+      <textarea id="description" name="description" [(ngModel)]="description" rows="5" required></textarea>
+    </div>
+
+    <div class="champ">
+      <label for="competences">Compétences requises (séparées par des virgules)</label>
+      <input type="text" id="competences" name="competences" [(ngModel)]="competencesTexte"
+             placeholder="Java, Spring Boot, SQL">
+    </div>
+
+    <p class="erreur" *ngIf="erreur">{{ erreur }}</p>
+
+    <button type="submit" [disabled]="chargement">
+      {{ chargement ? 'Création...' : 'Créer l\'offre' }}
+    </button>
+  </form>
+</div>

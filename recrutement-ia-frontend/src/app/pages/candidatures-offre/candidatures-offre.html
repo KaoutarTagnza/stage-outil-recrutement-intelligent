@@ -1,0 +1,14 @@
+<div class="candidatures-container">
+  <h1>Candidatures reçues</h1>
+
+  <p *ngIf="chargement()">Chargement...</p>
+  <p *ngIf="!chargement() && candidatures().length === 0">Aucune candidature pour cette offre.</p>
+
+  <div class="candidature-card" *ngFor="let c of candidatures()">
+    <h2>{{ c.candidatNom }}</h2>
+    <span class="statut" [class]="c.statut">{{ c.statut }}</span>
+    <p *ngIf="c.scoreMatching !== null">Score de correspondance : {{ c.scoreMatching }}%</p>
+    <p *ngIf="!c.cvFichierUrl">CV non encore déposé</p>
+    <a [routerLink]="['/candidatures', c.id]">Voir le détail / Gérer</a>
+  </div>
+</div>

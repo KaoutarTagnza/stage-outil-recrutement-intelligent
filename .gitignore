@@ -1,0 +1,27 @@
+# Java / Spring Boot
+recrutement-ia/target/
+*.class
+*.log
+
+# Fichiers uploadés par les candidats
+recrutement-ia/uploads/
+
+# Angular
+recrutement-ia-frontend/node_modules/
+recrutement-ia-frontend/.angular/
+recrutement-ia-frontend/dist/
+
+# Environnement / secrets
+.env
+.env.*
+*.key
+*.pem
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db

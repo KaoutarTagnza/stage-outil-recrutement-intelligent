@@ -1,0 +1,38 @@
+<div class="dashboard">
+  <p class="bienvenue-eyebrow">Connecté en tant que {{ authService.getRole() }}</p>
+  <h1>Bonjour, {{ authService.getEmail() }}</h1>
+
+  <div class="raccourcis">
+    <a routerLink="/offres" class="raccourci">
+      <h2>Parcourir les offres</h2>
+      <p>Voir toutes les offres publiées, ouvertes à tous.</p>
+    </a>
+
+    <ng-container *ngIf="authService.getRole() === 'CANDIDAT'">
+      <a routerLink="/mes-candidatures" class="raccourci">
+        <h2>Mes candidatures</h2>
+        <p>Suivre le statut de vos candidatures et déposer vos CV.</p>
+      </a>
+    </ng-container>
+
+    <ng-container *ngIf="authService.getRole() === 'RECRUTEUR'">
+      <a routerLink="/mes-offres" class="raccourci">
+        <h2>Mes offres</h2>
+        <p>Gérer vos offres et consulter les candidatures reçues.</p>
+      </a>
+      <a routerLink="/creer-offre" class="raccourci">
+        <h2>Créer une offre</h2>
+        <p>Publier une nouvelle offre d'emploi.</p>
+      </a>
+    </ng-container>
+
+    <ng-container *ngIf="authService.getRole() === 'ADMIN'">
+      <a routerLink="/admin" class="raccourci">
+        <h2>Administration</h2>
+        <p>Gérer les comptes, les rôles, et consulter les statistiques.</p>
+      </a>
+    </ng-container>
+  </div>
+
+  <button (click)="authService.logout()" class="btn-deconnexion">Se déconnecter</button>
+</div>

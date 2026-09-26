@@ -1,0 +1,6 @@
+.page-eyebrow { font-size: 0.8rem; font-weight: 700; color: var(--orange); margin-bottom: 0.25rem; }
+.lien-bas { margin-top: 1.25rem; font-size: 0.9rem; text-align: center; }
+
+.champ-checkbox { flex-direction: row; align-items: flex-start; gap: 0.6rem; }
+.checkbox-label { display: flex; gap: 0.6rem; font-size: 0.85rem; font-weight: 400; align-items: flex-start; cursor: pointer; color: var(--text-soft); }
+.checkbox-label input { width: auto; margin-top: 0.2rem; }

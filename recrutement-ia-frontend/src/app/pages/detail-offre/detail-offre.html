@@ -1,0 +1,24 @@
+<div class="detail-offre-container">
+  <p *ngIf="chargement()">Chargement...</p>
+
+  <ng-container *ngIf="!chargement() && offre() as o">
+    <h1>{{ o.titre }}</h1>
+    <p class="recruteur">Publiée par {{ o.recruteurNom }}</p>
+    <p>{{ o.description }}</p>
+
+    <p class="competences">
+      <span *ngFor="let c of o.competences" class="badge">{{ c }}</span>
+    </p>
+
+    <div *ngIf="authService.getRole() === 'CANDIDAT'">
+      <button (click)="postuler()" [disabled]="enCoursPostulation()">
+        {{ enCoursPostulation() ? 'Envoi...' : 'Postuler à cette offre' }}
+      </button>
+      <p class="erreur" *ngIf="messagePostulation()">{{ messagePostulation() }}</p>
+    </div>
+
+    <p *ngIf="!authService.getToken()">
+      <a routerLink="/login">Connectez-vous</a> pour postuler à cette offre.
+    </p>
+  </ng-container>
+</div>
