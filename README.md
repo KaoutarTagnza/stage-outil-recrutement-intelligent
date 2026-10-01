@@ -1,6 +1,3 @@
-Bien sûr. Voici le **guide final**, prêt à copier-coller dans ton `README.md`. J’ai repris le fonctionnement réel que tu m’as donné, notamment le script SQL séparé, l’analyse IA simulée et le scénario complet de test.
-
-````markdown
 # Plateforme de recrutement intelligente — IA & Cybersécurité
 
 ## Guide de démarrage
