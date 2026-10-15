@@ -34,6 +34,12 @@ export class CreerOffre {
       .map(c => c.trim())
       .filter(c => c.length > 0);
 
+    if (competences.length === 0) {
+      this.chargement = false;
+      this.erreur = 'Ajoutez au moins une compétence requise pour permettre le calcul du score de matching (ex. Java, Spring Boot, MySQL).';
+      return;
+    }
+
     this.offreService.creer({ titre: this.titre, description: this.description, competences }).subscribe({
       next: () => {
         this.chargement = false;

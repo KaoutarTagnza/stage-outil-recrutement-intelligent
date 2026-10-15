@@ -1,23 +1,74 @@
+
 <div class="candidatures-container">
   <h1>Mes candidatures</h1>
 
   <p *ngIf="chargement()">Chargement...</p>
-  <p *ngIf="!chargement() && candidatures().length === 0">Vous n'avez postulé à aucune offre.</p>
+
+  <p *ngIf="!chargement() && candidatures().length === 0">
+    Vous n'avez postulé à aucune offre.
+  </p>
 
   <div class="candidature-card" *ngFor="let c of candidatures()">
     <h2>{{ c.offreTitre }}</h2>
-    <span class="statut" [class]="c.statut">{{ c.statut }}</span>
+
+    <span class="statut" [class]="c.statut">
+      {{ c.statut }}
+    </span>
+
     <p>Déposée le {{ c.dateDepot | date:'dd/MM/yyyy' }}</p>
 
-    <p *ngIf="c.scoreMatching !== null">Score de correspondance : {{ c.scoreMatching }}%</p>
+    <p *ngIf="c.scoreMatching !== null">
+      Score de correspondance : {{ c.scoreMatching }}%
+    </p>
 
-    <div *ngIf="!c.cvFichierUrl">
-      <input type="file" accept=".pdf" (change)="onFichierChange($event, c.id)">
-      <button (click)="deposerCv(c.id)" [disabled]="enCoursUpload() === c.id">
-        {{ enCoursUpload() === c.id ? 'Envoi...' : 'Déposer mon CV' }}
-      </button>
+    <div
+      class="entretien-section"
+      *ngIf="entretiensPourCandidature(c.id).length > 0"
+    >
+      <h3>Mon entretien</h3>
+
+      <div
+        class="entretien-card"
+        *ngFor="let e of entretiensPourCandidature(c.id)"
+      >
+        <p>
+          <strong>Date de l'entretien :</strong>
+          {{ e.dateEntretien | date:'dd/MM/yyyy à HH:mm' }}
+        </p>
+
+        <h4>Questions préparées</h4>
+
+        <ul>
+          <li *ngFor="let question of e.questionsGenerees.split(' | ')">
+            {{ question }}
+          </li>
+        </ul>
+      </div>
     </div>
 
-    <p *ngIf="c.cvFichierUrl" class="cv-depose">✓ CV déjà déposé</p>
+    <div class="cv-upload">
+      <p *ngIf="c.cvFichierUrl" class="cv-depose">
+        ✓ CV déjà déposé. Vous pouvez le remplacer pour relancer l'analyse.
+      </p>
+
+      <input
+        type="file"
+        accept=".pdf,application/pdf"
+        (change)="onFichierChange($event, c.id)"
+      >
+
+      <button
+        (click)="deposerCv(c.id)"
+        [disabled]="enCoursUpload() === c.id"
+      >
+        {{
+          enCoursUpload() === c.id
+            ? 'Analyse en cours...'
+            : (c.cvFichierUrl
+                ? 'Remplacer le CV et relancer l’analyse'
+                : 'Déposer mon CV')
+        }}
+      </button>
+    </div>
   </div>
 </div>

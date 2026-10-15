@@ -3,6 +3,7 @@ package com.recrutementia.service;
 import com.recrutementia.dto.EntretienResponse;
 import com.recrutementia.model.*;
 import com.recrutementia.repository.CandidatureRepository;
+import com.recrutementia.repository.CandidatRepository;
 import com.recrutementia.repository.EntretienRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,12 @@ import java.util.stream.Collectors;
 public class EntretienService {
 
     private final CandidatureRepository candidatureRepository;
+    private final CandidatRepository candidatRepository;
     private final EntretienRepository entretienRepository;
     private final QuestionGeneratorService questionGeneratorService;
     private final JournalisationService journalisationService;
+
+    // ---- Cote recruteur ----
 
     public List<String> genererQuestions(Long candidatureId, String emailRecruteur) {
         Candidature candidature = candidatureRepository.findById(candidatureId)
@@ -30,10 +34,17 @@ public class EntretienService {
                 .map(Competence::getNom)
                 .collect(Collectors.toList());
 
-        return questionGeneratorService.genererQuestions(candidature.getOffre().getTitre(), nomsCompetences);
+        return questionGeneratorService.genererQuestions(
+                candidature.getOffre().getTitre(),
+                nomsCompetences
+        );
     }
 
-    public EntretienResponse planifier(Long candidatureId, LocalDateTime dateEntretien, String emailRecruteur) {
+    public EntretienResponse planifier(
+            Long candidatureId,
+            LocalDateTime dateEntretien,
+            String emailRecruteur) {
+
         Candidature candidature = candidatureRepository.findById(candidatureId)
                 .orElseThrow(() -> new IllegalStateException("Candidature introuvable"));
 
@@ -41,28 +52,53 @@ public class EntretienService {
 
         List<String> questions = genererQuestions(candidatureId, emailRecruteur);
 
-        Entretien entretien = entretienRepository.findAll().stream()
-                .filter(e -> e.getCandidature().getId().equals(candidatureId))
-                .findFirst()
+        Entretien entretien = entretienRepository.findByCandidatureId(candidatureId)
                 .orElseGet(Entretien::new);
 
         entretien.setCandidature(candidature);
         entretien.setDateEntretien(dateEntretien);
         entretien.setQuestionsGenerees(String.join(" | ", questions));
+
         entretien = entretienRepository.save(entretien);
 
         candidature.setStatut(StatutCandidature.ENTRETIEN_PLANIFIE);
         candidatureRepository.save(candidature);
 
-        journalisationService.journaliser(candidature.getOffre().getRecruteur(),
-                "Entretien planifie pour la candidature #" + candidatureId);
+        journalisationService.journaliser(
+                candidature.getOffre().getRecruteur(),
+                "Entretien planifie pour la candidature #" + candidatureId
+        );
 
         return new EntretienResponse(entretien);
     }
 
-    private void verifierProprietaire(Candidature candidature, String emailRecruteur) {
+    // ---- Cote candidat ----
+
+    public List<EntretienResponse> listerMesEntretiens(String emailCandidat) {
+
+        Candidat candidat = candidatRepository
+                .findByUtilisateurEmail(emailCandidat)
+                .orElseThrow(() -> new IllegalStateException("Candidat introuvable"));
+
+        return entretienRepository
+                .findByCandidatureCandidatUtilisateurEmail(
+                        candidat.getUtilisateur().getEmail()
+                )
+                .stream()
+                .map(EntretienResponse::new)
+                .collect(Collectors.toList());
+    }
+
+    // ---- Verification du recruteur ----
+
+    private void verifierProprietaire(
+            Candidature candidature,
+            String emailRecruteur) {
+
         if (!candidature.getOffre().getRecruteur().getEmail().equals(emailRecruteur)) {
-            throw new IllegalStateException("Vous n'etes pas le proprietaire de cette offre");
+            throw new IllegalStateException(
+                    "Vous n'etes pas le proprietaire de cette offre"
+            );
         }
     }
 }

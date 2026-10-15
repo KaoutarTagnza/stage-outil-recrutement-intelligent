@@ -15,7 +15,7 @@
     <div class="champ">
       <label for="competences">Compétences requises (séparées par des virgules)</label>
       <input type="text" id="competences" name="competences" [(ngModel)]="competencesTexte"
-             placeholder="Java, Spring Boot, SQL">
+             placeholder="Java, Spring Boot, SQL" required>
     </div>
 
     <p class="erreur" *ngIf="erreur">{{ erreur }}</p>

@@ -34,3 +34,4 @@ public class Candidature {
     @JoinColumn(name = "offre_id", nullable = false)
     private Offre offre;
 }
+
